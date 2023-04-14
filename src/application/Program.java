@@ -4,44 +4,66 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
+import entities.Lesson;
+import entities.Task;
+import entities.Video;
 
-import entities.Taxpayer;
 
 public class Program {
 	
 	public static void main(String[] args) {
-	
+		
 		Locale.setDefault(Locale.US);
 		Scanner sc = new Scanner(System.in);
-		List<Taxpayer>list = new ArrayList<>();
 		
-		System.out.print("Quantos contribuintes você vai digitar?");
+		List <Lesson> lesson = new ArrayList<>();
+		
+		System.out.print("Quantas aulas tem o curso? ");
 		int n = sc.nextInt();
-		System.out.println();
 		
-		for(int i=0; i<n; i++) {
-			System.out.println("Digite os dados do " +  (i+1) + "o contribuinte:");
-			System.out.print("Renda anual com salário:");
-			double salaryIncome = sc.nextDouble();
-			System.out.print("Renda anual com prestação de serviço:");
-			double servicesIncome = sc.nextDouble();
-			System.out.print("Renda anual com ganho de capital:");
-			double capitalIncome = sc.nextDouble();
-			System.out.print("Gastos médicos:");
-			double helthIncome = sc.nextDouble();
-			System.out.print("Gastos educacionais:");
-			double educationSpending = sc.nextDouble();
+		for (int i=1; i<=n; i++) {
+			System.out.print("Dados da " + i +"a aula:");
+			System.out.print("Conteúdo ou tarefa (c/t)?");
+			sc.nextLine();
+			char taskContent = sc.next().charAt(0);
+			System.out.print("Título:");
+			sc.nextLine();
+			String title = sc.nextLine();
+			if (taskContent == 'c') {
+				System.out.println("URL do vídeo:");
+				String url = sc.next();
+				System.out.println("Duração em segundos: ");
+				int duration = sc.nextInt();
+				lesson.add(new Video(title, url, duration));
+			} else  {
+				System.out.print("Descrição: ");
+				String descrition = sc.next();
+				System.out.print("Quantidade de questões:");
+				sc.nextLine();
+				int questionCount = sc.nextInt();
+				lesson.add(new Task(title, descrition, questionCount));
+			}
 			System.out.println();
 			
-			list.add(new Taxpayer(salaryIncome, servicesIncome, capitalIncome, helthIncome, educationSpending));
 		}
 		
-		for(int i=0; i<n; i++) {
-			System.out.println("Resumo do" + (i+1) + "o  contribuinte:");
-			System.out.println(list.get(i));
+		System.out.println();
+		int totalCourseDuration = 0;
+		for (Lesson list : lesson) {
+			totalCourseDuration += list.duration();
+			
 		}
+		
+		System.out.println("DURAÇÃO TOTAL DO CURSO = " + totalCourseDuration + " segundos");
 		
 	
+		
+		
+		
+		
+		
+		
 		sc.close();
 	}
+
 }
